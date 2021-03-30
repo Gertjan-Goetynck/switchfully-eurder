@@ -3,7 +3,6 @@ package com.switchfully.eurder.service;
 import com.switchfully.eurder.domain.user.User;
 import com.switchfully.eurder.domain.user.UserRepository;
 import com.switchfully.eurder.domain.user.UserRole;
-import com.switchfully.eurder.infrastructure.exceptions.IllegalPriceException;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
 import org.springframework.stereotype.Service;
 
