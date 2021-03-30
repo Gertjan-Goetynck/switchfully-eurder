@@ -1,8 +1,8 @@
 package com.switchfully.eurder.infrastructure.utils;
 
 import com.switchfully.eurder.infrastructure.exceptions.IllegalEmailException;
+import com.switchfully.eurder.infrastructure.exceptions.IllegalPriceException;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidationUtil {
@@ -54,4 +54,30 @@ public class ValidationUtil {
     }
 
 
+    public static void throwExceptionIfNegativePrice(double amount) {
+        if (amount < 0) {
+            throw new IllegalPriceException("Price cannot be negative");
+        }
+    }
+
+    public static void throwExceptionIfNegativeNumber(int number, String numberName) {
+        if (number < 0) {
+            throw new IllegalArgumentException(numberName + " can not be negative");
+        }
+    }
+
+    public static void throwExceptionIfInvalidUUID(String id) {
+        throwExceptionIfBlankOrNullString(id, "Id");
+        if (!isValidUUID(id)) {
+            throw new IllegalArgumentException("The id is not of a valid length");
+        }
+    }
+
+    private static boolean isValidUUIDLength(String id) {
+        return id.length() == 36;
+    }
+
+    public static boolean isValidUUID(String id) {
+        return !isNullObject(id) && isValidUUIDLength(id);
+    }
 }

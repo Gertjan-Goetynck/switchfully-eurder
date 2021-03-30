@@ -11,11 +11,16 @@ import java.io.IOException;
 public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     private void illegalArgumentException(IllegalArgumentException exception, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST,exception.getMessage());
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(IllegalEmailException.class)
     private void illegalEmailException(IllegalEmailException exception, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    private void illegalAccessException(IllegalAccessException exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, exception.getMessage());
     }
 }

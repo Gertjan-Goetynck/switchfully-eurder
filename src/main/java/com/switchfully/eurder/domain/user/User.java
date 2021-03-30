@@ -14,7 +14,11 @@ public abstract class User {
     private final UserRole userRole;
 
     public User(String firstName, String lastName, String email, String address, String phoneNumber, UserRole userRole) {
-        this.id = UUID.randomUUID();
+        this(UUID.randomUUID(), firstName, lastName, email, address, phoneNumber, userRole);
+    }
+
+    public User(UUID id, String firstName, String lastName, String email, String address, String phoneNumber, UserRole userRole) {
+        this.id = id;
         ValidationUtil.throwExceptionIfBlankOrNullString(firstName, "First name");
         this.firstName = firstName;
         ValidationUtil.throwExceptionIfBlankOrNullString(lastName, "Last name");
@@ -27,5 +31,13 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
         ValidationUtil.throwExceptionIfNullObject(userRole, "Role");
         this.userRole = userRole;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public UserRole getUserRole() {
+        return this.userRole;
     }
 }

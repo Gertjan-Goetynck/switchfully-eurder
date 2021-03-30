@@ -60,4 +60,9 @@ class CustomerTest {
     void whenCreatingCustomerWithBlankPhonenumber_thenThrowIllegalEmailException() {
         assertThrows(IllegalArgumentException.class, () -> new Customer("F", "f", "f@f.f", "f", ""));
     }
+
+    @Test
+    void whenCreatingValidCustomer_thenThrowNoException(){
+        assertDoesNotThrow(() -> new Customer("F", "f", "f@f.f", "f", "F"));
+    }
 }
