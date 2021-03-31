@@ -29,8 +29,8 @@ public class OrderController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public GetPriceDTO placeOrder(@RequestBody CreateOrderDTO createOrderDTO, @RequestHeader(value = "Authorization", required = false) String userId) throws IllegalAccessException {
-        authorizationService.throwExceptionIfNotCustomer(userId);
-        return orderService.placeOrder(createOrderDTO, userId);
+    public GetPriceDTO placeOrder(@RequestBody CreateOrderDTO createOrderDTO, @RequestHeader(value = "Authorization", required = false) String authorizationId) throws IllegalAccessException {
+        authorizationService.throwExceptionIfNotCustomer(authorizationId);
+        return orderService.placeOrder(createOrderDTO, authorizationId);
     }
 }

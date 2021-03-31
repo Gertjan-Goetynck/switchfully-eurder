@@ -29,8 +29,16 @@ public class CustomerController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<GetCustomerDTO> getAllCustomers(@RequestHeader(name = "Authorization", required = false) String userId) throws IllegalAccessException {
-        authorizationService.throwExceptionIfNotAdmin(userId);
+    public List<GetCustomerDTO> getAllCustomers(@RequestHeader(name = "Authorization", required = false) String authorizationId) throws IllegalAccessException {
+        authorizationService.throwExceptionIfNotAdmin(authorizationId);
         return customerService.getAllCustomersDto();
     }
+
+    @GetMapping(path = "/{customerId}", produces = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public GetCustomerDTO getCustomerById(@RequestHeader(name = "Authorization", required = false) String authorizationId, @PathVariable String customerId) throws IllegalAccessException {
+        authorizationService.throwExceptionIfNotAdmin(authorizationId);
+        return customerService.getCustomerByIdDto(customerId);
+    }
+
 }
