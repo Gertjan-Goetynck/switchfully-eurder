@@ -1,11 +1,14 @@
 package com.switchfully.eurder.api.controllers;
 
 import com.switchfully.eurder.api.dtos.item.CreateItemDTO;
+import com.switchfully.eurder.api.dtos.item.GetItemDto;
 import com.switchfully.eurder.api.dtos.mappers.ItemDtoMapper;
 import com.switchfully.eurder.service.AuthorizationService;
 import com.switchfully.eurder.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/items")
@@ -23,6 +26,11 @@ public class ItemController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createItem(@RequestHeader(value = "Authorization", required = false) String userId, @RequestBody CreateItemDTO createItemDTO) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(userId);
-        itemService.createItem(ItemDtoMapper.mapCreateItemDtoToItem(createItemDTO));
+        itemService.createItem(createItemDTO);
+    }
+
+    @GetMapping(produces = "application/json")
+    public List<GetItemDto> getItems(){
+        return itemService.getAllItems();
     }
 }

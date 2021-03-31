@@ -9,7 +9,7 @@ public class Item {
     private final String name;
     private final String description;
     private final Price pricePerUnit;
-    private final int amountInStock;
+    private int amountInStock;
 
     public Item(String name, String description, Price pricePerUnit, int amountInStock) {
         this.id = UUID.randomUUID();
@@ -23,9 +23,31 @@ public class Item {
         this.amountInStock = amountInStock;
     }
 
-    public Item(Item that) {
-        this(that.name, that.description, that.pricePerUnit, that.amountInStock);
+    public void sellItem(int amount) {
+        if (amountInStock <= amount) {
+            amountInStock = 0;
+        } else {
+            amountInStock -= amount;
+        }
     }
 
+    public UUID getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Price getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public int getAmountInStock() {
+        return amountInStock;
+    }
 }

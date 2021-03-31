@@ -3,6 +3,7 @@ package com.switchfully.eurder.infrastructure.utils;
 import com.switchfully.eurder.infrastructure.exceptions.IllegalEmailException;
 import com.switchfully.eurder.infrastructure.exceptions.IllegalPriceException;
 
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class ValidationUtil {
@@ -79,5 +80,10 @@ public class ValidationUtil {
 
     public static boolean isValidUUID(String id) {
         return !isNullObject(id) && isValidUUIDLength(id);
+    }
+
+    public static UUID convertStringToUUID(String id) {
+        isValidUUID(id);
+        return UUID.fromString(id);
     }
 }

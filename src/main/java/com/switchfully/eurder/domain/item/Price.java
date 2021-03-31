@@ -12,4 +12,12 @@ public class Price {
         ValidationUtil.throwExceptionIfNullObject(currency, "Currency");
         this.currency = currency;
     }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
 }

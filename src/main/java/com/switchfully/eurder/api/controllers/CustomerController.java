@@ -19,6 +19,6 @@ public class CustomerController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void createCustomer(@RequestBody CreateCustomerDTO createCustomerDTO){
-        customerService.createCustomer(CustomerDtoMapper.mapCreateCustomerDtoToCustomer(createCustomerDTO));
+        customerService.createCustomer(createCustomerDTO);
     }
 }
