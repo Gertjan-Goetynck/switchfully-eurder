@@ -39,4 +39,15 @@ public class AuthorizationService {
         User user = userRepository.getUserById(UUID.fromString(id));
         return user != null;
     }
+
+    public void throwExceptionIfNotCustomer(String userId) throws IllegalAccessException {
+        if (!ValidationUtil.isValidUUID(userId) || !isCustomer(userId)) {
+            throw new IllegalAccessException("Only customers can visit this page");
+        }
+    }
+
+    private boolean isCustomer(String userId) {
+        User user = userRepository.getUserById(UUID.fromString(userId));
+        return user != null && user.getUserRole() == UserRole.CUSTOMER;
+    }
 }

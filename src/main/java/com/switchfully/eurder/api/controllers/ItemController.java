@@ -2,7 +2,6 @@ package com.switchfully.eurder.api.controllers;
 
 import com.switchfully.eurder.api.dtos.item.CreateItemDTO;
 import com.switchfully.eurder.api.dtos.item.GetItemDto;
-import com.switchfully.eurder.api.dtos.mappers.ItemDtoMapper;
 import com.switchfully.eurder.service.AuthorizationService;
 import com.switchfully.eurder.service.ItemService;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,6 @@ public class ItemController {
 
     @GetMapping(produces = "application/json")
     public List<GetItemDto> getItems(){
-        return itemService.getAllItems();
+        return itemService.getAllItemsDto();
     }
 }

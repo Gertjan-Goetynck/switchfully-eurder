@@ -23,11 +23,15 @@ public class CustomerService {
         userRepository.addUser(CustomerDtoMapper.mapCreateCustomerDtoToCustomer(createCustomerDTO));
     }
 
-    public User getUserById(String id) {
-        return userRepository.getUserById(ValidationUtil.convertStringToUUID(id));
+    public List<GetCustomerDTO> getAllCustomersDto() {
+        return CustomerDtoMapper.mapCustomerListToGetCustomerDtoList(userRepository.getAllCustomers());
     }
 
-    public List<GetCustomerDTO> getAllCustomers() {
-        return CustomerDtoMapper.mapCustomerListToGetCustomerDtoList(userRepository.getAllCustomers());
+    public Customer getCustomerById(String userId) {
+        return userRepository.getCustomerById(ValidationUtil.convertStringToUUID(userId));
+    }
+
+    public GetCustomerDTO getCustomerByIdDto(String userId) {
+        return CustomerDtoMapper.mapCustomerToGetCustomerDto(getCustomerById(userId));
     }
 }

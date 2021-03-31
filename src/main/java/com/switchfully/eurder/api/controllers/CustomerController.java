@@ -31,6 +31,6 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<GetCustomerDTO> getAllCustomers(@RequestHeader(name = "Authorization", required = false) String userId) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(userId);
-        return customerService.getAllCustomers();
+        return customerService.getAllCustomersDto();
     }
 }

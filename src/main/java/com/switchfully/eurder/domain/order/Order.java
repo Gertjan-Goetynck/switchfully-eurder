@@ -2,6 +2,7 @@ package com.switchfully.eurder.domain.order;
 
 import com.switchfully.eurder.domain.item.Price;
 import com.switchfully.eurder.domain.order.itemgroup.ItemGroup;
+import com.switchfully.eurder.domain.user.Customer;
 import com.switchfully.eurder.domain.user.User;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
 
@@ -11,14 +12,14 @@ import java.util.UUID;
 public class Order {
     private final UUID id;
     private final List<ItemGroup> itemGroupList;
-    private final User purchaser;
+    private final Customer customer;
 
-    public Order(List<ItemGroup> itemGroupList, User purchaser) {
+    public Order(List<ItemGroup> itemGroupList, Customer customer) {
         this.id = UUID.randomUUID();
         ValidationUtil.throwExceptionIfNullObject(itemGroupList,"Item group");
         this.itemGroupList = itemGroupList;
-        ValidationUtil.throwExceptionIfNullObject(purchaser,"The purchaser");
-        this.purchaser = purchaser;
+        ValidationUtil.throwExceptionIfNullObject(customer,"The purchaser");
+        this.customer = customer;
     }
 
     public Price calculateOrderPrice() {
@@ -36,7 +37,7 @@ public class Order {
         return itemGroupList;
     }
 
-    public User getPurchaser() {
-        return purchaser;
+    public User getCustomer() {
+        return customer;
     }
 }

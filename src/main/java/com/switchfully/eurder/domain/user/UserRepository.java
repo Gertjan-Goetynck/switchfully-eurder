@@ -32,4 +32,11 @@ public class UserRepository {
                 .map(customerUser -> (Customer) customerUser)
                 .collect(Collectors.toList());
     }
+
+    public Customer getCustomerById(UUID uuid) {
+        if (userMap.get(uuid) == null || userMap.get(uuid).getUserRole() != UserRole.CUSTOMER) {
+            throw new IllegalArgumentException("Customer not found");
+        }
+        return (Customer) userMap.get(uuid);
+    }
 }

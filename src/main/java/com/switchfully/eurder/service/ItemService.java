@@ -29,7 +29,7 @@ public class ItemService {
         return itemRepository.getById(ValidationUtil.convertStringToUUID(itemId));
     }
 
-    public List<GetItemDto> getAllItems() {
+    public List<GetItemDto> getAllItemsDto() {
         return ItemDtoMapper.mapItemListToGetItemDtoList(new ArrayList<>(itemRepository.getAll().values()));
     }
 }
