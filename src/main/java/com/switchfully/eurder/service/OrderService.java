@@ -3,6 +3,7 @@ package com.switchfully.eurder.service;
 import com.switchfully.eurder.api.dtos.mappers.OrderDtoMapper;
 import com.switchfully.eurder.api.dtos.mappers.PriceDtoMapper;
 import com.switchfully.eurder.api.dtos.order.CreateOrderDTO;
+import com.switchfully.eurder.api.dtos.order.GetOrderHistoryDTO;
 import com.switchfully.eurder.api.dtos.price.GetPriceDTO;
 import com.switchfully.eurder.domain.order.Order;
 import com.switchfully.eurder.domain.order.OrderRepository;
@@ -44,5 +45,9 @@ public class OrderService {
 
     public Map<UUID, Order> getAllOrders() {
         return orderRepository.getAll();
+    }
+
+    public GetOrderHistoryDTO getOrderHistoryByCustomerDto(String userId){
+        return OrderDtoMapper.mapOrderListToGetOrderHistoryDto(orderRepository.getOrdersByUser(ValidationUtil.convertStringToUUID(userId)));
     }
 }

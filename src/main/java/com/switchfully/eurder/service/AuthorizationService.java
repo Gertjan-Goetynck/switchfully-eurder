@@ -50,4 +50,10 @@ public class AuthorizationService {
         User user = userRepository.getUserById(UUID.fromString(userId));
         return user != null && user.getUserRole() == UserRole.CUSTOMER;
     }
+
+    public void throwExceptionIfNotOwnProfile(String authorizationId, String customerId) throws IllegalAccessException {
+        if( ValidationUtil.isNullObject(authorizationId) || !authorizationId.equals(customerId) && !isCustomer(customerId)){
+            throw new IllegalAccessException("You need to be logged in and owner of this profile to visit this page");
+        }
+    }
 }
