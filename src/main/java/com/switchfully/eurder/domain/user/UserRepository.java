@@ -4,6 +4,7 @@ import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
@@ -23,5 +24,12 @@ public class UserRepository {
 
     public User getUserById(UUID uuid) {
         return userMap.get(uuid);
+    }
+
+    public List<Customer> getAllCustomers() {
+        return userMap.values().stream()
+                .filter(user -> user.getUserRole() == UserRole.CUSTOMER)
+                .map(customerUser -> (Customer) customerUser)
+                .collect(Collectors.toList());
     }
 }

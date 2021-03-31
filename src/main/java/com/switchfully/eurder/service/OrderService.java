@@ -28,7 +28,7 @@ public class OrderService {
 
     public GetPriceDTO placeOrder(CreateOrderDTO createOrderDTO, String userId) {
         updateStock(createOrderDTO);
-        return PriceDtoMapper.mapPriceToGetPriceDto(orderRepository.addOrder(OrderDtoMapper.mapCreateOrderDtoToOrder(createOrderDTO, customerService.getCustomerById(userId), itemService))
+        return PriceDtoMapper.mapPriceToGetPriceDto(orderRepository.addOrder(OrderDtoMapper.mapCreateOrderDtoToOrder(createOrderDTO, customerService.getUserById(userId), itemService))
                 .calculateOrderPrice());
     }
 
