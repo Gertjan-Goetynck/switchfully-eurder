@@ -2,6 +2,7 @@ package com.switchfully.eurder.api.controllers;
 
 import com.switchfully.eurder.api.dtos.item.CreateItemDTO;
 import com.switchfully.eurder.api.dtos.item.GetItemDto;
+import com.switchfully.eurder.api.dtos.item.UpdateItemDTO;
 import com.switchfully.eurder.service.AuthorizationService;
 import com.switchfully.eurder.service.ItemService;
 import org.slf4j.Logger;
@@ -32,8 +33,15 @@ public class ItemController {
     }
 
     @GetMapping(produces = "application/json")
-    public List<GetItemDto> getItems(@RequestHeader(value = "Authorization", required = false) String authorizationId,@RequestParam(required = false) String stockUrgency) throws IllegalAccessException {
+    public List<GetItemDto> getItems(@RequestHeader(value = "Authorization", required = false) String authorizationId, @RequestParam(required = false) String stockUrgency) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(authorizationId);
         return itemService.getAllItemsDtoSortedByStock(stockUrgency);
+    }
+
+    @PutMapping(path = "/{itemId}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateItem(@RequestHeader(value = "Authorization", required = false) String authorizationId, @RequestBody UpdateItemDTO updateItemDTO, @PathVariable String itemId) throws IllegalAccessException {
+        authorizationService.throwExceptionIfNotAdmin(authorizationId);
+        itemService.updateItem(updateItemDTO, itemId);
     }
 }

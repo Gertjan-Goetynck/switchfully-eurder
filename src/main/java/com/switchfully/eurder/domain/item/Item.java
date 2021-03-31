@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class Item {
     private final UUID id;
-    private final String name;
-    private final String description;
-    private final Price pricePerUnit;
+    private String name;
+    private String description;
+    private Price pricePerUnit;
     private int amountInStock;
     private StockUrgency stockUrgency;
 
@@ -56,7 +56,22 @@ public class Item {
         return stockUrgency;
     }
 
-    private void setAmountInStock(int amountInStock) {
+    public Item setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Item setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Item setPricePerUnit(Price pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+        return this;
+    }
+
+    public Item setAmountInStock(int amountInStock) {
         this.amountInStock = amountInStock;
         if (amountInStock < 5) {
             this.stockUrgency = StockUrgency.STOCK_LOW;
@@ -65,5 +80,7 @@ public class Item {
         } else {
             this.stockUrgency = StockUrgency.STOCK_HIGH;
         }
+
+        return this;
     }
 }

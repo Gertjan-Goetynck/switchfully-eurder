@@ -2,9 +2,11 @@ package com.switchfully.eurder.service;
 
 import com.switchfully.eurder.api.dtos.item.CreateItemDTO;
 import com.switchfully.eurder.api.dtos.item.GetItemDto;
+import com.switchfully.eurder.api.dtos.item.UpdateItemDTO;
 import com.switchfully.eurder.api.dtos.mappers.ItemDtoMapper;
 import com.switchfully.eurder.domain.item.Item;
 import com.switchfully.eurder.domain.item.ItemRepository;
+import com.switchfully.eurder.infrastructure.exceptions.ItemNotFoundException;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +45,18 @@ public class ItemService {
         return getItemDtoList.stream()
                 .filter(getItemDto -> getItemDto.getStockUrgency().toString().equalsIgnoreCase(stockUrgency))
                 .collect(Collectors.toList());
+    }
+
+    public void updateItem(UpdateItemDTO updateItemDTO, String itemId) {
+        if (itemRepository.getById(ValidationUtil.convertStringToUUID(itemId)) == null) {
+            throw new ItemNotFoundException();
+        }
+        itemRepository.addItem(
+                itemRepository.getById(ValidationUtil.convertStringToUUID(itemId))
+                        .setName(updateItemDTO.getName())
+                        .setDescription(updateItemDTO.getDescription())
+                        .setPricePerUnit(updateItemDTO.getPricePerUnit())
+                        .setAmountInStock(updateItemDTO.getAmountInStock())
+        );
     }
 }
