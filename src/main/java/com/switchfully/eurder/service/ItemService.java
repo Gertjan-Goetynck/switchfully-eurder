@@ -21,8 +21,10 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public void createItem(CreateItemDTO createItemDTO) {
-        itemRepository.addItem(ItemDtoMapper.mapCreateItemDtoToItem(createItemDTO));
+    public UUID createItem(CreateItemDTO createItemDTO) {
+        Item item = ItemDtoMapper.mapCreateItemDtoToItem(createItemDTO);
+        itemRepository.addItem(item);
+        return item.getId();
     }
 
     public Item getItemById(String itemId) {
