@@ -13,7 +13,7 @@ public class ItemDtoMapper {
     }
 
     public static GetItemDto mapItemToGetItemDto(Item item) {
-        return new GetItemDto(item.getId(), item.getName(), item.getDescription(), item.getPricePerUnit(), item.getAmountInStock());
+        return new GetItemDto(item.getId(), item.getName(), item.getDescription(), item.getPricePerUnit(), item.getAmountInStock(), item.getStockUrgency());
     }
 
     public static List<GetItemDto> mapItemListToGetItemDtoList(List<Item> itemList) {

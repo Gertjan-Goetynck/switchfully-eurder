@@ -1,6 +1,7 @@
 package com.switchfully.eurder.api.dtos.item;
 
 import com.switchfully.eurder.domain.item.Price;
+import com.switchfully.eurder.domain.item.StockUrgency;
 
 import java.util.UUID;
 
@@ -10,13 +11,15 @@ public class GetItemDto {
     private final String description;
     private final Price pricePerUnit;
     private final int amountInStock;
+    private final StockUrgency stockUrgency;
 
-    public GetItemDto(UUID id, String name, String description, Price pricePerUnit, int amountInStock) {
+    public GetItemDto(UUID id, String name, String description, Price pricePerUnit, int amountInStock, StockUrgency stockUrgency) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.pricePerUnit = pricePerUnit;
         this.amountInStock = amountInStock;
+        this.stockUrgency = stockUrgency;
     }
 
     public UUID getId() {
@@ -37,5 +40,9 @@ public class GetItemDto {
 
     public int getAmountInStock() {
         return amountInStock;
+    }
+
+    public StockUrgency getStockUrgency() {
+        return stockUrgency;
     }
 }

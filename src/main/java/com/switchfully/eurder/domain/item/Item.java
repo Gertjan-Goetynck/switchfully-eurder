@@ -10,6 +10,7 @@ public class Item {
     private final String description;
     private final Price pricePerUnit;
     private int amountInStock;
+    private StockUrgency stockUrgency;
 
     public Item(String name, String description, Price pricePerUnit, int amountInStock) {
         this.id = UUID.randomUUID();
@@ -20,14 +21,14 @@ public class Item {
         ValidationUtil.throwExceptionIfNullObject(pricePerUnit, "Price per unit");
         this.pricePerUnit = pricePerUnit;
         ValidationUtil.throwExceptionIfNegativeNumber(amountInStock, "Amount in stock");
-        this.amountInStock = amountInStock;
+        setAmountInStock(amountInStock);
     }
 
     public void sellItem(int amount) {
         if (amountInStock <= amount) {
-            amountInStock = 0;
+            setAmountInStock(0);
         } else {
-            amountInStock -= amount;
+            setAmountInStock(amountInStock - amount);
         }
     }
 
@@ -49,5 +50,20 @@ public class Item {
 
     public int getAmountInStock() {
         return amountInStock;
+    }
+
+    public StockUrgency getStockUrgency() {
+        return stockUrgency;
+    }
+
+    private void setAmountInStock(int amountInStock) {
+        this.amountInStock = amountInStock;
+        if (amountInStock < 5) {
+            this.stockUrgency = StockUrgency.STOCK_LOW;
+        } else if (amountInStock < 10) {
+            this.stockUrgency = StockUrgency.STOCK_MEDIUM;
+        } else {
+            this.stockUrgency = StockUrgency.STOCK_HIGH;
+        }
     }
 }

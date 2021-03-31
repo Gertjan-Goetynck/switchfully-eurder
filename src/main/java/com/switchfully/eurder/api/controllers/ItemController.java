@@ -32,7 +32,8 @@ public class ItemController {
     }
 
     @GetMapping(produces = "application/json")
-    public List<GetItemDto> getItems() {
-        return itemService.getAllItemsDto();
+    public List<GetItemDto> getItems(@RequestHeader(value = "Authorization", required = false) String authorizationId,@RequestParam(required = false) String stockUrgency) throws IllegalAccessException {
+        authorizationService.throwExceptionIfNotAdmin(authorizationId);
+        return itemService.getAllItemsDtoSortedByStock(stockUrgency);
     }
 }

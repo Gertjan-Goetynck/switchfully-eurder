@@ -8,10 +8,8 @@ import com.switchfully.eurder.domain.item.ItemRepository;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
@@ -33,5 +31,17 @@ public class ItemService {
 
     public List<GetItemDto> getAllItemsDto() {
         return ItemDtoMapper.mapItemListToGetItemDtoList(new ArrayList<>(itemRepository.getAll().values()));
+    }
+
+    public List<GetItemDto> getAllItemsDtoSortedByStock(String stockUrgency) {
+        List<GetItemDto> getItemDtoList = getAllItemsDto().stream()
+                .sorted(Comparator.comparingInt(GetItemDto::getAmountInStock)).collect(Collectors.toList());
+        if (ValidationUtil.isNullObject(stockUrgency) || stockUrgency.isBlank()) {
+            return getItemDtoList;
+        }
+
+        return getItemDtoList.stream()
+                .filter(getItemDto -> getItemDto.getStockUrgency().toString().equalsIgnoreCase(stockUrgency))
+                .collect(Collectors.toList());
     }
 }
