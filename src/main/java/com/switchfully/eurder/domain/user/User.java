@@ -23,7 +23,7 @@ public abstract class User {
         this.firstName = firstName;
         ValidationUtil.throwExceptionIfBlankOrNullString(lastName, "Last name");
         this.lastName = lastName;
-        ValidationUtil.throwExceptionIfInvalidEmail(email);
+        ValidationUtil.throwExceptionIfIllegalEmail(email);
         this.email = email;
         ValidationUtil.throwExceptionIfBlankOrNullString(address, "Address");
         this.address = address;

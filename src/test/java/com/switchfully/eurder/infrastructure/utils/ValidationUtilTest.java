@@ -133,7 +133,7 @@ class ValidationUtilTest {
         String string = null;
 
         //WHEN
-        Executable executable = () -> ValidationUtil.throwExceptionIfInvalidEmail(string);
+        Executable executable = () -> ValidationUtil.throwExceptionIfIllegalEmail(string);
 
         //THEN
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, executable);
@@ -146,7 +146,7 @@ class ValidationUtilTest {
         String string = "";
 
         //WHEN
-        Executable executable = () -> ValidationUtil.throwExceptionIfInvalidEmail(string);
+        Executable executable = () -> ValidationUtil.throwExceptionIfIllegalEmail(string);
 
         //THEN
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, executable);
@@ -159,7 +159,7 @@ class ValidationUtilTest {
         String string = "A";
 
         //WHEN
-        Executable executable = () -> ValidationUtil.throwExceptionIfInvalidEmail(string);
+        Executable executable = () -> ValidationUtil.throwExceptionIfIllegalEmail(string);
 
         //THEN
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, executable);
@@ -172,7 +172,7 @@ class ValidationUtilTest {
         String string = "Test@test.test";
 
         //WHEN
-        Executable executable = () -> ValidationUtil.throwExceptionIfInvalidEmail(string);
+        Executable executable = () -> ValidationUtil.throwExceptionIfIllegalEmail(string);
 
         //THEN
         assertDoesNotThrow(executable);

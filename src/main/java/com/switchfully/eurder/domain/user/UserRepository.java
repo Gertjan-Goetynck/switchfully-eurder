@@ -1,19 +1,24 @@
 package com.switchfully.eurder.domain.user;
 
+import com.switchfully.eurder.infrastructure.exceptions.UserNotFoundException;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
+    private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
     private final Map<UUID, User> userMap;
+    private static final Admin ROOT_ADMIN = new Admin(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "Root", "Admin", "Root@Admin.com", "Root", "Root");
 
     public UserRepository() {
         userMap = new HashMap<>();
-        Admin rootAdmin = new Admin(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "Root", "Admin", "Root@Admin.com", "Root", "Root");
-        userMap.put(rootAdmin.getId(), rootAdmin);
+        userMap.put(ROOT_ADMIN.getId(), ROOT_ADMIN);
 
     }
 
@@ -34,9 +39,26 @@ public class UserRepository {
     }
 
     public Customer getCustomerById(UUID uuid) {
-        if (userMap.get(uuid) == null || userMap.get(uuid).getUserRole() != UserRole.CUSTOMER) {
-            throw new IllegalArgumentException("Customer not found");
+        throwExceptionIfUserOfTypeNotFound(this::isCustomer, uuid);
+        return (Customer) getUserById(uuid);
+    }
+
+    private void throwExceptionIfUserOfTypeNotFound(Predicate<UUID> predicate, UUID uuid) {
+        if (!predicate.test(uuid)) {
+            logger.warn("No user with ID " + uuid + " was found");
+            throw new UserNotFoundException(uuid);
         }
-        return (Customer) userMap.get(uuid);
+    }
+
+    public boolean isCustomer(UUID uuid) {
+        return isUser(uuid) && getUserById(uuid).getUserRole() == UserRole.CUSTOMER;
+    }
+
+    public boolean isAdmin(UUID uuid) {
+        return isUser(uuid) && getUserById(uuid).getUserRole() == UserRole.ADMIN;
+    }
+
+    public boolean isUser(UUID uuid) {
+        return getUserById(uuid) != null;
     }
 }
