@@ -39,26 +39,6 @@ public class UserRepository {
     }
 
     public Customer getCustomerById(UUID uuid) {
-        throwExceptionIfUserOfTypeNotFound(this::isCustomer, uuid);
         return (Customer) getUserById(uuid);
-    }
-
-    private void throwExceptionIfUserOfTypeNotFound(Predicate<UUID> predicate, UUID uuid) {
-        if (!predicate.test(uuid)) {
-            logger.warn("No user with ID " + uuid + " was found");
-            throw new UserNotFoundException(uuid);
-        }
-    }
-
-    public boolean isCustomer(UUID uuid) {
-        return isUser(uuid) && getUserById(uuid).getUserRole() == UserRole.CUSTOMER;
-    }
-
-    public boolean isAdmin(UUID uuid) {
-        return isUser(uuid) && getUserById(uuid).getUserRole() == UserRole.ADMIN;
-    }
-
-    public boolean isUser(UUID uuid) {
-        return getUserById(uuid) != null;
     }
 }
