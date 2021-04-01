@@ -14,15 +14,14 @@ public class Item {
 
     public Item(String name, String description, Price pricePerUnit, int amountInStock) {
         this.id = UUID.randomUUID();
-        ValidationUtil.throwExceptionIfBlankOrNullString(name, "Item name");
-        this.name = name;
-        ValidationUtil.throwExceptionIfBlankOrNullString(description, "Item description");
-        this.description = description;
+        setName(name);
+        setDescription(description);
         setPricePerUnit(pricePerUnit);
         setAmountInStock(amountInStock);
     }
 
     public void reduceStock(int amount) {
+        ValidationUtil.throwExceptionIfNegativeNumber(amount, "Amount bought");
         if (amountInStock <= amount) {
             setAmountInStock(0);
         } else {
@@ -55,11 +54,13 @@ public class Item {
     }
 
     public Item setName(String name) {
+        ValidationUtil.throwExceptionIfBlankOrNullString(name, "Item name");
         this.name = name;
         return this;
     }
 
     public Item setDescription(String description) {
+        ValidationUtil.throwExceptionIfBlankOrNullString(description, "Item description");
         this.description = description;
         return this;
     }
