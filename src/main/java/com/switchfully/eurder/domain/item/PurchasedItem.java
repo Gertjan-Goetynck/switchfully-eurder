@@ -15,6 +15,13 @@ public class PurchasedItem {
         this.pricePerUnit = pricePerUnit;
     }
 
+    public PurchasedItem(Item item) {
+        this.id = item.getId();
+        this.name = item.getName();
+        this.description = item.getDescription();
+        this.pricePerUnit = item.getPricePerUnit();
+    }
+
     public UUID getId() {
         return id;
     }

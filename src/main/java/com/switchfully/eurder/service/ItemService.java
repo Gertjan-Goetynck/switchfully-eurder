@@ -48,9 +48,7 @@ public class ItemService {
     }
 
     public void updateItem(UpdateItemDTO updateItemDTO, String itemId) {
-        if (itemRepository.getById(ValidationUtil.convertStringToUUID(itemId)) == null) {
-            throw new ItemNotFoundException();
-        }
+        throwExceptionIfItemNotFound(itemId);
         itemRepository.addItem(
                 itemRepository.getById(ValidationUtil.convertStringToUUID(itemId))
                         .setName(updateItemDTO.getName())
@@ -58,5 +56,22 @@ public class ItemService {
                         .setPricePerUnit(updateItemDTO.getPricePerUnit())
                         .setAmountInStock(updateItemDTO.getAmountInStock())
         );
+    }
+
+    public void reduceStock(String itemId, int amount) {
+        throwExceptionIfItemNotFound(itemId);
+        ValidationUtil.throwExceptionIfNegativeNumber(amount, "Amount bought");
+        UUID uuid = ValidationUtil.convertStringToUUID(itemId);
+        if (itemRepository.getById(uuid).getAmountInStock() <= amount) {
+            itemRepository.getById(uuid).setAmountInStock(0);
+        } else {
+            itemRepository.getById(uuid).setAmountInStock(itemRepository.getById(uuid).getAmountInStock() - amount);
+        }
+    }
+
+    private void throwExceptionIfItemNotFound(String itemId) {
+        if (ValidationUtil.isNullObject(getItemById(itemId))) {
+            throw new ItemNotFoundException();
+        }
     }
 }

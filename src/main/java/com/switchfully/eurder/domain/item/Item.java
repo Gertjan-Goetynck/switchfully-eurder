@@ -20,15 +20,6 @@ public class Item {
         setAmountInStock(amountInStock);
     }
 
-    public void reduceStock(int amount) {
-        ValidationUtil.throwExceptionIfNegativeNumber(amount, "Amount bought");
-        if (amountInStock <= amount) {
-            setAmountInStock(0);
-        } else {
-            setAmountInStock(amountInStock - amount);
-        }
-    }
-
     public UUID getId() {
         return id;
     }
