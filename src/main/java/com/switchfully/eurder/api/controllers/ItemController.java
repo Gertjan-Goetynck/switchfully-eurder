@@ -33,15 +33,18 @@ public class ItemController {
     }
 
     @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public List<GetItemDto> getItems(@RequestHeader(value = "Authorization", required = false) String authorizationId, @RequestParam(required = false) String stockUrgency) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(authorizationId);
+        logger.info("An admin with ID " + authorizationId + " requested a list of all items");
         return itemService.getAllItemsDtoSortedByStock(stockUrgency);
     }
 
     @PutMapping(path = "/{itemId}", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateItem(@RequestHeader(value = "Authorization", required = false) String authorizationId, @RequestBody UpdateItemDTO updateItemDTO, @PathVariable String itemId) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(authorizationId);
+        logger.info("An admin with ID " + authorizationId + " updated an item with ID " + itemId);
         itemService.updateItem(updateItemDTO, itemId);
     }
 
