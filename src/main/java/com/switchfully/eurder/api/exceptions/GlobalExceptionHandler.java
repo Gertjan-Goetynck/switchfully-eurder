@@ -1,6 +1,7 @@
 package com.switchfully.eurder.api.exceptions;
 
 import com.switchfully.eurder.infrastructure.exceptions.IllegalEmailException;
+import com.switchfully.eurder.infrastructure.exceptions.IllegalUUIDException;
 import com.switchfully.eurder.infrastructure.exceptions.ItemNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,5 +29,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ItemNotFoundException.class)
     private void itemNotFoundException(ItemNotFoundException exception, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_FORBIDDEN, exception.getMessage());
+    }
+
+    @ExceptionHandler(IllegalUUIDException.class)
+    private void illegalUUIDException(IllegalUUIDException exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, exception.getMessage());
     }
 }
