@@ -62,7 +62,16 @@ class CustomerTest {
     }
 
     @Test
-    void whenCreatingValidCustomer_thenThrowNoException(){
+    void whenCreatingValidCustomer_thenThrowNoException() {
         assertDoesNotThrow(() -> new Customer("F", "f", "f@f.f", "f", "F"));
+    }
+
+    @Test
+    void whenCreatingValidCustomer_thenUserRoleIsCustomer() {
+        //WHEN
+        Customer customer = new Customer("F", "f", "f@f.f", "f", "F");
+
+        //THEN
+        assertEquals(customer.getUserRole(), UserRole.CUSTOMER);
     }
 }
