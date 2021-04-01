@@ -44,4 +44,5 @@ public class ItemController {
         authorizationService.throwExceptionIfNotAdmin(authorizationId);
         itemService.updateItem(updateItemDTO, itemId);
     }
+
 }

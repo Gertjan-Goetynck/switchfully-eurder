@@ -1,7 +1,5 @@
 package com.switchfully.eurder.domain.item;
 
-import java.util.UUID;
-
 public class PurchasedItem {
     private final String name;
     private final String description;
