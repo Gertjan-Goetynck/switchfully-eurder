@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,7 +56,7 @@ public class OrderService {
                     if (ValidationUtil.isNullObject(itemService.getItemById(itemGroup.getItemId()))) {
                         throw new ItemNotFoundException();
                     }
-                    itemService.getItemById(itemGroup.getItemId()).sellItem(itemGroup.getAmountOfItems());
+                    itemService.getItemById(itemGroup.getItemId()).reduceStock(itemGroup.getAmountOfItems());
                 });
     }
 

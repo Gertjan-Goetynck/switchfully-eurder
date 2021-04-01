@@ -18,13 +18,11 @@ public class Item {
         this.name = name;
         ValidationUtil.throwExceptionIfBlankOrNullString(description, "Item description");
         this.description = description;
-        ValidationUtil.throwExceptionIfNullObject(pricePerUnit, "Price per unit");
-        this.pricePerUnit = pricePerUnit;
-        ValidationUtil.throwExceptionIfNegativeNumber(amountInStock, "Amount in stock");
+        setPricePerUnit(pricePerUnit);
         setAmountInStock(amountInStock);
     }
 
-    public void sellItem(int amount) {
+    public void reduceStock(int amount) {
         if (amountInStock <= amount) {
             setAmountInStock(0);
         } else {
@@ -67,12 +65,19 @@ public class Item {
     }
 
     public Item setPricePerUnit(Price pricePerUnit) {
+        ValidationUtil.throwExceptionIfNullObject(pricePerUnit, "Price per unit");
         this.pricePerUnit = pricePerUnit;
         return this;
     }
 
     public Item setAmountInStock(int amountInStock) {
+        ValidationUtil.throwExceptionIfNegativeNumber(amountInStock, "Amount in stock");
         this.amountInStock = amountInStock;
+        setStockUrgency(amountInStock);
+        return this;
+    }
+
+    private void setStockUrgency(int amountInStock) {
         if (amountInStock < 5) {
             this.stockUrgency = StockUrgency.STOCK_LOW;
         } else if (amountInStock < 10) {
@@ -80,7 +85,5 @@ public class Item {
         } else {
             this.stockUrgency = StockUrgency.STOCK_HIGH;
         }
-
-        return this;
     }
 }
