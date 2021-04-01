@@ -3,6 +3,7 @@ package com.switchfully.eurder.api.controllers;
 import com.switchfully.eurder.api.dtos.customer.CreateCustomerDTO;
 import com.switchfully.eurder.api.dtos.customer.GetCustomerDTO;
 import com.switchfully.eurder.api.dtos.order.GetOrderHistoryDTO;
+import com.switchfully.eurder.api.dtos.price.GetPriceDTO;
 import com.switchfully.eurder.service.AuthorizationService;
 import com.switchfully.eurder.service.CustomerService;
 import com.switchfully.eurder.service.OrderService;
@@ -32,6 +33,7 @@ public class CustomerController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void createCustomer(@RequestBody CreateCustomerDTO createCustomerDTO) {
+        logger.info("A new customer was created");
         customerService.createCustomer(createCustomerDTO);
     }
 
@@ -39,7 +41,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<GetCustomerDTO> getAllCustomers(@RequestHeader(name = "Authorization", required = false) String authorizationId) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(authorizationId);
-        logger.warn("An admin with ID " + authorizationId + " requested a list of all customers");
+        logger.info("An admin with ID " + authorizationId + " requested a list of all customers");
         return customerService.getAllCustomersDto();
     }
 
@@ -47,7 +49,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public GetCustomerDTO getCustomerById(@RequestHeader(name = "Authorization", required = false) String authorizationId, @PathVariable String customerId) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotAdmin(authorizationId);
-        logger.warn("An admin with ID " + authorizationId + " visited the profile page of customer " + customerId);
+        logger.info("An admin with ID " + authorizationId + " visited the profile page of customer " + customerId);
         return customerService.getCustomerByIdDto(customerId);
     }
 
@@ -55,8 +57,16 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public GetOrderHistoryDTO getOrderHistoryByCustomer(@RequestHeader(name = "Authorization", required = false) String authorizationId, @PathVariable String customerId) throws IllegalAccessException {
         authorizationService.throwExceptionIfNotOwnProfile(authorizationId, customerId);
-        logger.warn("A user with ID " + authorizationId + " requested a list of his or her orders");
+        logger.info("A user with ID " + authorizationId + " requested a list of his or her orders");
         return orderService.getOrderHistoryByCustomerDto(customerId);
+    }
+
+    @PostMapping(path = "/{customerId}/orders")
+    @ResponseStatus(HttpStatus.CREATED)
+    public GetPriceDTO redoOrder(@RequestHeader(name = "Authorization", required = false) String authorizationId, @PathVariable String customerId, @RequestBody String orderId) throws IllegalAccessException {
+        authorizationService.throwExceptionIfNotOwnProfile(authorizationId, customerId);
+        logger.info("A user with ID" + authorizationId + " is redoing his order with ID" + orderId);
+        return orderService.redoOrder(orderId);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.switchfully.eurder.service;
 
+import com.switchfully.eurder.api.dtos.mappers.ItemGroupDtoMapper;
 import com.switchfully.eurder.api.dtos.mappers.OrderDtoMapper;
 import com.switchfully.eurder.api.dtos.mappers.PriceDtoMapper;
 import com.switchfully.eurder.api.dtos.order.CreateOrderDTO;
@@ -8,6 +9,7 @@ import com.switchfully.eurder.api.dtos.order.GetItemGroupShippingDTO;
 import com.switchfully.eurder.api.dtos.price.GetPriceDTO;
 import com.switchfully.eurder.domain.order.Order;
 import com.switchfully.eurder.domain.order.OrderRepository;
+import com.switchfully.eurder.domain.order.itemgroup.ItemGroup;
 import com.switchfully.eurder.infrastructure.exceptions.ItemNotFoundException;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,19 @@ public class OrderService {
                 .calculateOrderPrice());
     }
 
+    public GetPriceDTO redoOrder(String orderId) {
+        CreateOrderDTO createOrderDTO = new CreateOrderDTO(ItemGroupDtoMapper.mapItemGroupListToCreateItemGroupDtoList(getItemGroupListFromOrder(orderId)));
+        return placeOrder(createOrderDTO, getOrderById(orderId).getCustomer().getId().toString());
+    }
+
+    private Order getOrderById(String orderId) {
+        return orderRepository.getOrderById(ValidationUtil.convertStringToUUID(orderId));
+    }
+
+    private List<ItemGroup> getItemGroupListFromOrder(String orderId) {
+        return getOrderById(orderId).getItemGroupList();
+    }
+
     private void updateStock(CreateOrderDTO createOrderDTO) {
         createOrderDTO.getItemList()
                 .forEach(itemGroup -> {
@@ -45,10 +60,6 @@ public class OrderService {
                     }
                     itemService.getItemById(itemGroup.getItemId()).sellItem(itemGroup.getAmountOfItems());
                 });
-    }
-
-    public Map<UUID, Order> getAllOrders() {
-        return orderRepository.getAll();
     }
 
     public GetOrderHistoryDTO getOrderHistoryByCustomerDto(String userId) {
@@ -66,7 +77,7 @@ public class OrderService {
     private List<GetItemGroupShippingDTO> getItemGroupShippingTodayDtoFromOrder(Order order) {
         return order.getItemGroupList().stream()
                 .filter(itemGroup -> itemGroup.getShippingDate().equals(LocalDate.now()))
-                .map(itemGroup -> new GetItemGroupShippingDTO(itemGroup.getPurchasedItem(),itemGroup.getAmountOfItems(),itemGroup.calculateItemGroupPrice(),order.getCustomer().getAddress()))
+                .map(itemGroup -> new GetItemGroupShippingDTO(itemGroup.getPurchasedItem(), itemGroup.getAmountOfItems(), itemGroup.calculateItemGroupPrice(), order.getCustomer().getAddress()))
                 .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package com.switchfully.eurder.api.dtos.mappers;
 
 import com.switchfully.eurder.api.dtos.order.CreateItemGroupDTO;
+import com.switchfully.eurder.api.dtos.order.CreateOrderDTO;
 import com.switchfully.eurder.api.dtos.order.GetItemGroupDTO;
 import com.switchfully.eurder.api.dtos.order.GetItemGroupShippingDTO;
 import com.switchfully.eurder.domain.item.Item;
@@ -35,5 +36,15 @@ public class ItemGroupDtoMapper {
 
     public static GetItemGroupShippingDTO mapGetItemGroupAndShippingToGetItemGroupShippingDto(ItemGroup itemGroup, String address) {
         return new GetItemGroupShippingDTO(itemGroup.getPurchasedItem(), itemGroup.getAmountOfItems(), itemGroup.calculateItemGroupPrice(), address);
+    }
+
+    public static CreateItemGroupDTO mapItemGroupToCreateItemGroupDto(ItemGroup itemGroup) {
+        return new CreateItemGroupDTO(itemGroup.getPurchasedItem().getId().toString(), itemGroup.getAmountOfItems());
+    }
+
+    public static List<CreateItemGroupDTO> mapItemGroupListToCreateItemGroupDtoList(List<ItemGroup> itemGroupList) {
+        return itemGroupList.stream()
+                .map(ItemGroupDtoMapper::mapItemGroupToCreateItemGroupDto)
+                .collect(Collectors.toList());
     }
 }

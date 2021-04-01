@@ -14,7 +14,7 @@ public class ItemGroup {
 
     public ItemGroup(Item item, int amountOfItems) {
         ValidationUtil.throwExceptionIfNullObject(item, "The item");
-        this.purchasedItem = new PurchasedItem(item.getName(),item.getDescription(),item.getPricePerUnit());
+        this.purchasedItem = new PurchasedItem(item.getId(), item.getName(), item.getDescription(), item.getPricePerUnit());
         ValidationUtil.throwExceptionIfNegativeNumber(amountOfItems, "The amount of items");
         this.amountOfItems = amountOfItems;
         this.shippingDate = calculateShippingDateBasedOnStock(item.getAmountInStock(), amountOfItems);
@@ -27,7 +27,7 @@ public class ItemGroup {
         return LocalDate.now().plusDays(1);
     }
 
-    public Price calculateItemGroupPrice(){
+    public Price calculateItemGroupPrice() {
         return new Price(purchasedItem.getPricePerUnit().getAmount() * amountOfItems, purchasedItem.getPricePerUnit().getCurrency());
     }
 

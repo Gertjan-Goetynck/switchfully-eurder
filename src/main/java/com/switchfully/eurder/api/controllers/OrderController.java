@@ -22,11 +22,6 @@ public class OrderController {
         this.authorizationService = authorizationService;
     }
 
-    @GetMapping
-    public Map<UUID, Order> getOrders() {
-        return orderService.getAllOrders();
-    }
-
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public GetPriceDTO placeOrder(@RequestBody CreateOrderDTO createOrderDTO, @RequestHeader(value = "Authorization", required = false) String authorizationId) throws IllegalAccessException {
