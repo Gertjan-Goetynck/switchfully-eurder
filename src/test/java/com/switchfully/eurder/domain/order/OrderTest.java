@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
     private final ItemGroup itemGroup = new ItemGroup(new Item("test", "test", new Price(10, Currency.EUR), 9999), 2);
-    private final Customer customer = new Customer("F", "f", "f@f.f", "f", "F");
+    private final Customer customer = new Customer("F", "f", "f@f.f","f", "f", "F");
 
     @Test
     void givenNullItemGroup_whenCreatingOrder_thenThrowIllegalArgumentException() {

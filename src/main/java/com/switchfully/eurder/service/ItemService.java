@@ -8,6 +8,8 @@ import com.switchfully.eurder.domain.item.Item;
 import com.switchfully.eurder.domain.item.ItemRepository;
 import com.switchfully.eurder.infrastructure.exceptions.ItemNotFoundException;
 import com.switchfully.eurder.infrastructure.utils.ValidationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class ItemService {
     private final ItemRepository itemRepository;
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -71,6 +74,7 @@ public class ItemService {
 
     private void throwExceptionIfItemNotFound(String itemId) {
         if (ValidationUtil.isNullObject(getItemById(itemId))) {
+            logger.warn("The item with ID " + itemId + " was not found");
             throw new ItemNotFoundException();
         }
     }

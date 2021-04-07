@@ -18,12 +18,12 @@ class UserRepositoryTest {
 
     @Test
     void givenUser_whenAddingUserToRepository_thenThrowNoException() {
-        assertDoesNotThrow(() -> userRepository.addUser(new Customer("F", "F", "F@F.F", "F", "F")));
+        assertDoesNotThrow(() -> userRepository.addUser(new Customer("F", "F", "F@F.F", "f", "F", "F")));
     }
 
     @Test
     void givenUserInRepository_whenCallingGetUserById_thenReturnUser() {
-        Customer customer = new Customer("F", "f", "f@f.f", "f", "F");
+        Customer customer = new Customer("F", "f", "f@f.f", "f", "f", "F");
         userRepository.addUser(customer);
 
         Customer returnedCustomer = userRepository.getCustomerById(customer.getId());
@@ -34,7 +34,7 @@ class UserRepositoryTest {
 
     @Test
     void giveCustomerInRepository_whenCallingGetCustomerById_thenReturnUser() {
-        Customer customer = new Customer("F", "f", "f@f.f", "f", "F");
+        Customer customer = new Customer("F", "f", "f@f.f", "f", "f", "F");
         userRepository.addUser(customer);
 
         Customer returnedCustomer = userRepository.getCustomerById(customer.getId());
@@ -44,7 +44,7 @@ class UserRepositoryTest {
 
     @Test
     void giveCustomerInRepository_whenCallingGetCustomerById_thenReturnedUserRoleIsCustomer() {
-        Customer customer = new Customer("F", "f", "f@f.f", "f", "F");
+        Customer customer = new Customer("F", "f", "f@f.f", "f", "f", "F");
         userRepository.addUser(customer);
 
         Customer returnedCustomer = userRepository.getCustomerById(customer.getId());

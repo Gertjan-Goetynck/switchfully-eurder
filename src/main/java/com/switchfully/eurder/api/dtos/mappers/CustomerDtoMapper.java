@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class CustomerDtoMapper {
     public static Customer mapCreateCustomerDtoToCustomer(CreateCustomerDTO createCustomerDTO) {
-        return new Customer(createCustomerDTO.getFirstName(), createCustomerDTO.getLastName(), createCustomerDTO.getEmail(), createCustomerDTO.getAddress(), createCustomerDTO.getPhoneNumber());
+        return new Customer(createCustomerDTO.getFirstName(), createCustomerDTO.getLastName(), createCustomerDTO.getEmail(), createCustomerDTO.getPassword(), createCustomerDTO.getAddress(), createCustomerDTO.getPhoneNumber());
     }
 
     public static GetCustomerDTO mapCustomerToGetCustomerDto(Customer customer) {
